@@ -1,0 +1,1 @@
+ALTER TABLE tables ADD FULLTEXT(column, column, ...); FULLTEXT chỉ hoạt động trên VARCHAR hoặc TEXT, không dùng được cho INT hỗ trợ tìm kiếm like nhanh chóng

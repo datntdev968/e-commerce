@@ -44,7 +44,8 @@ Route::middleware(['auth:api'])->group(function () {
         'attributes' => AttributeController::class,
         'attribute-values' => AttributeValueController::class,
         'roles' => RoleController::class,
-        'permissions' => PermisstionController::class
+        'permissions' => PermisstionController::class,
+        'users' => \App\Http\Controllers\Api\User\UserController::class,
     ]);
 
     Route::get('get-permissions', [RoleController::class, 'getPermissions']);

@@ -140,10 +140,19 @@ button.css-dev-only-do-not-override-1p3hq3p {
   opacity: 0.6; /* Làm mờ hàng */
 }
 
-.ant-tabs-nav{
+.ant-tabs-nav {
   margin: 0 !important;
 }
 
 .mt-4-5 {
   margin-top: 2.5rem !important;
+}
+
+table thead tr th {
+  font-size: 12px !important;
+  font-weight: bold !important;
+}
+
+table tbody tr td {
+  font-size: 12px !important;
 }

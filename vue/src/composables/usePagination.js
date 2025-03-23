@@ -19,28 +19,39 @@ export default function usePagination(apiUrl) {
   })
 
   let oldParam = reactive({
-    filterCustom: null,
-    sortField: null,
-    sortOrder: null,
-    deleted_at: null,
+    // filterCustom: null,
+    // sortField: null,
+    // sortOrder: null,
+    // deleted_at: null,
+    // searchField: null,
+    // searchText: null,
   })
 
   // Hàm fetch data từ server
-  const fetchData = async (params = {}) => {
-    oldParam = params
-
+  const fetchData = async (params = {}, resetFilter = false) => {
     loading.value = true
-    try {
-      const response = await getAll(apiUrl, {
+
+    if (resetFilter) {
+      oldParam = {}
+    } else {
+      oldParam = Object.assign({}, oldParam, {
         page: params.current || pagination.current,
         pageSize: params.pageSize || pagination.pageSize,
-        sortField: params.sortField,
-        sortOrder: params.sortOrder,
-        searchText: params.search || null,
-        searchField: params.searchField || null,
-        filterCustom: params.filter || null,
-        deleted_at: params.deleted_at || null,
+        sortField: params.sortField ?? oldParam.sortField, // Giữ sortField nếu không có mới
+        sortOrder: params.sortOrder ?? oldParam.sortOrder, // Giữ sortOrder nếu không có mới
+        searchText: params.search ?? oldParam.searchText, // Giữ searchText nếu không có mới
+        searchField: Array.isArray(params.searchField)
+          ? params.searchField
+          : params.searchField
+            ? [params.searchField]
+            : oldParam.searchField, // Giữ searchField nếu không có mới
+        filterCustom: params.filter ?? oldParam.filterCustom, // Giữ filterCustom nếu không có mới
+        deleted_at: params.deleted_at ?? oldParam.deleted_at, // Giữ deleted_at nếu không có mới
       })
+    }
+
+    try {
+      const response = await getAll(apiUrl, oldParam)
 
       resData.value = response.data.data
 
@@ -52,6 +63,8 @@ export default function usePagination(apiUrl) {
     } finally {
       loading.value = false
     }
+
+    // oldParam = param
   }
 
   // Hàm xử lý khi bảng thay đổi (phân trang, sắp xếp)
@@ -61,8 +74,15 @@ export default function usePagination(apiUrl) {
       pageSize: paginationInfo.pageSize,
       sortField: sorter.field,
       sortOrder: sorter.order === 'ascend' ? 'asc' : 'desc',
-      filterCustom: oldParam.filterCustom || null,
-      deleted_at: oldParam.deleted_at || null,
+
+      // searchText: oldParam.searchText,
+      // searchField: Array.isArray(oldParam.searchField)
+      //   ? oldParam.searchField
+      //   : oldParam.searchField
+      //     ? [oldParam.searchField]
+      //     : null,
+      // filterCustom: oldParam.filterCustom || null,
+      // deleted_at: oldParam.deleted_at || null,
     })
   }
 

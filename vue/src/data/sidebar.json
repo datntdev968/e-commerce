@@ -42,8 +42,8 @@
         "route": "premissions"
       },
       {
-        "name": "Quản lý người dùng",
-        "route": "premissions"
+        "name": "Danh sách khách hàng",
+        "route": "users"
       }
     ]
   }
