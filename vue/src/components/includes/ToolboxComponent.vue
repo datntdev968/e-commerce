@@ -144,7 +144,7 @@ const reLoad = () => {
 	showOption.value = false
 	action.value = ''
 	filter.value = ''
-	emit('fetch')
+	emit('fetch', {}, true)
 	emit('resetChecked')
 
 	if (showOptionRestore.value == true) {

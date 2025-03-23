@@ -10,6 +10,7 @@ use Illuminate\Support\Str;
  */
 class UserFactory extends Factory
 {
+    protected static int $counter = 1;
     /**
      * Define the model's default state.
      *
@@ -18,12 +19,21 @@ class UserFactory extends Factory
     public function definition(): array
     {
         return [
+            'uni_code' => 'PU' . str_pad(self::$counter++, 5, '0', STR_PAD_LEFT),
+            'user_group_id' => '3',
             'name' => fake()->name(),
-            'email' => rand(20, 100) . fake()->unique()->safeEmail() . rand(40, 100),
+            'email' => fake()->unique()->safeEmail(),
+            'phone' => fake()->unique()->numerify('09########'), // Số điện thoại dạng 09xxxxxxxx
+            'gender' => fake()->randomElement(['male', 'female']),
+            'birthday' => fake()->date('Y-m-d', '-20 years'), // Sinh nhật cách đây ít nhất 20 năm
+            'address' => fake()->address(),
+            'phone_verified_at' => fake()->optional()->dateTime(),
             'email_verified_at' => now(),
-            'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
+            'password' => '$2y$10$t0lozVN4x1chTLot/mzs/u3qnftSctvpsCUjEv5AO2yfgfiIXI9IG', // Mật khẩu mặc định
             'remember_token' => Str::random(10),
-            'role_id' => random_int(1, 2),
+            'published' => fake()->boolean(90), // 90% người dùng được kích hoạt
+            'created_at' => now(),
+            'updated_at' => now(),
         ];
     }
 

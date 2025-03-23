@@ -7,6 +7,7 @@ import brandRoutes from './brandRoutes'
 import attributeRoutes from './attributeRoutes'
 import roleRoutes from './roleRoutes'
 import permissionRoutes from './permissionRoutes'
+import userRoutes from './userRoutes'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -35,7 +36,8 @@ const router = createRouter({
         ...brandRoutes,
         ...attributeRoutes,
         ...roleRoutes,
-        ...permissionRoutes
+        ...permissionRoutes,
+        ...userRoutes
       ],
     },
     {

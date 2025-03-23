@@ -39,8 +39,23 @@ trait PaginateTrait
 
         // Apply search condition
         if (!empty($conditions['searchText']) && !empty($conditions['searchField'])) {
-            $query->where($conditions['searchField'], 'like', '%' . $conditions['searchText'] . '%');
+            if (is_array($conditions['searchField'])) {
+                $arrayColumns = implode(', ', $conditions['searchField']);
+                $searchText = $conditions['searchText'] . '*'; // Thêm dấu * vào chuỗi trước khi đưa vào mảng
+                $query->whereRaw("MATCH($arrayColumns) AGAINST (? IN BOOLEAN MODE)", [$searchText]);
+            } else {
+                $query->where($conditions['searchField'], 'like', '%' . $conditions['searchText'] . '%');
+            }
         }
+
+
+        // if (!empty($conditions['searchText']) && !empty($conditions['searchField'])) {
+        //     $query->where($conditions['searchField'], 'like', '%' . $conditions['searchText'] . '%');
+        // }
+
+        // if (!empty($conditions['searchText'])) {
+        //     $query->whereRaw("MATCH(name, email, phone) AGAINST (? IN BOOLEAN MODE)", [$conditions['searchText']]);
+        // }
 
         // Apply filter condition
         if (isset($conditions['filterCustom'])) {
@@ -59,5 +74,17 @@ trait PaginateTrait
         // Paginate results
         $pageSize = request('pageSize', 10);
         return $query->paginate($pageSize);
+    }
+
+    public function payload()
+    {
+        return  [
+            'searchField' => request('searchField', 'name'),
+            'sortField' => request('sortField', 'id'),
+            'sortOrder' => request('sortOrder', 'desc'),
+            'searchText' => request('searchText'),
+            'filterCustom' => request('filterCustom'),
+            'deleted_at' => request('deleted_at'),
+        ];
     }
 }

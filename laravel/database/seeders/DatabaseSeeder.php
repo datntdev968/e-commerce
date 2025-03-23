@@ -13,7 +13,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // \App\Models\User::factory(10)->create();
+        \App\Models\User::factory(5000)->create();
 
         // \App\Models\User::factory()->create([
         //     'name' => 'Test User',
@@ -21,10 +21,10 @@ class DatabaseSeeder extends Seeder
         // ]);
 
         // \App\Models\User::factory(100000)->create();
-        Permission::create(['name' => 'viewAny catalogues']);
-        Permission::create(['name' => 'view catalogues']);
-        Permission::create(['name' => 'store catalogues']);
-        Permission::create(['name' => 'update catalogues']);
-        Permission::create(['name' => 'delete catalogues']);
+        // Permission::create(['name' => 'viewAny catalogues']);
+        // Permission::create(['name' => 'view catalogues']);
+        // Permission::create(['name' => 'store catalogues']);
+        // Permission::create(['name' => 'update catalogues']);
+        // Permission::create(['name' => 'delete catalogues']);
     }
 }
